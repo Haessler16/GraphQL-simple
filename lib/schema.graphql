@@ -1,15 +1,66 @@
-type Course{
-  _id: ID!
-  name: String!,
-  user: String!,
-  account: ID
-  # description: String!,
-  # topic: String
+# CUSTOMS TYPES
+type Student {
+	_id: ID!
+	name: String!
+	email: String!
 }
 
-type Query{
-  "Devuelve todos los cursos"
-  courses: [Course]
-  "Devuelve solo un curso"
-  course(id: ID!): Course
+type Course {
+	_id: ID!
+	name: String!
+	user: String!
+	account: ID
+  people: [Student]
+	# description: String!,
+	# topic: String
+}
+
+# QUERY
+type Query {
+	"Devuelve todos los cursos"
+	courses: [Course]
+	"Devuelve solo un curso"
+	course(id: ID!): Course
+	"Devuelve todos los estudiantes"
+	students: [Student]
+	"Devuelve solo un estudiante"
+	student(id: ID!): Student
+}
+
+# INPUTS
+input CourseInput {
+	name: String!
+	user: String!
+	account: ID
+}
+
+input CourseUpdateInput {
+	name: String
+}
+
+input StudentInput {
+	name: String!
+	email: String!
+}
+
+input StudentUpdateInput {
+	name: String
+	email: String
+}
+
+
+# MUTATION
+type Mutation {
+	"Crear un Curso"
+	createCourse(input: CourseInput!): Course
+	"Edita un Curso"
+	updateCourse(id: ID!, input: CourseUpdateInput!): Course
+	"Crear un Estudiante"
+	createStudent(input: StudentInput!): Student
+	"Edita un Estudiante"
+	updateStudent(id: ID!, input: StudentUpdateInput!): Student
+	"Eliminar un Estudiante"
+	deleteStudent(id: ID!): Student
+  "Agrega un persona a un curso"
+  addPeople(courseID:ID!, personID: ID! ): Course
 }
