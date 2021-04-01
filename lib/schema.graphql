@@ -4,6 +4,10 @@ enum Level {
 	intermedio
 	avanzado
 }
+
+# UNIONS
+union GlobalSearch = Course | Student | Monitor
+
 # INTERFACES
 interface Person {
 	_id: ID!
@@ -30,7 +34,7 @@ type Course {
 	_id: ID!
 	name: String!
 	user: String!
-	account: ID
+	account: ID @deprecated
 	people: [Student]
 	level: Level
 	# description: String!,
@@ -47,6 +51,8 @@ type Query {
 	people: [Person]
 	"Devuelve solo un estudiante"
 	person(id: ID!): Person
+	"Ejecuta una busqueda global"
+	searchItems(keyword: String!): [GlobalSearch]
 }
 
 # INPUTS
