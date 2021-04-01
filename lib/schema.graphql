@@ -1,8 +1,29 @@
-# CUSTOMS TYPES
-type Student {
+#  ENUMS
+enum Level {
+	principiante
+	intermedio
+	avanzado
+}
+# INTERFACES
+interface Person {
 	_id: ID!
 	name: String!
 	email: String!
+}
+
+# CUSTOMS TYPES
+type Student implements Person {
+	_id: ID!
+	name: String!
+	email: String!
+	avatar: String
+}
+
+type Monitor implements Person {
+	_id: ID!
+	name: String!
+	email: String!
+	phone: String
 }
 
 type Course {
@@ -10,7 +31,8 @@ type Course {
 	name: String!
 	user: String!
 	account: ID
-  people: [Student]
+	people: [Student]
+	level: Level
 	# description: String!,
 	# topic: String
 }
@@ -22,9 +44,9 @@ type Query {
 	"Devuelve solo un curso"
 	course(id: ID!): Course
 	"Devuelve todos los estudiantes"
-	students: [Student]
+	people: [Person]
 	"Devuelve solo un estudiante"
-	student(id: ID!): Student
+	person(id: ID!): Person
 }
 
 # INPUTS
@@ -32,22 +54,26 @@ input CourseInput {
 	name: String!
 	user: String!
 	account: ID
+	level: Level!
 }
 
 input CourseUpdateInput {
 	name: String
 }
 
-input StudentInput {
+input PersonInput {
 	name: String!
 	email: String!
+	phone: String
+	avatar: String
 }
 
-input StudentUpdateInput {
+input PersonUpdateInput {
 	name: String
 	email: String
+	phone: String
+	avatar: String
 }
-
 
 # MUTATION
 type Mutation {
@@ -56,11 +82,11 @@ type Mutation {
 	"Edita un Curso"
 	updateCourse(id: ID!, input: CourseUpdateInput!): Course
 	"Crear un Estudiante"
-	createStudent(input: StudentInput!): Student
+	createPerson(input: PersonInput!): Person
 	"Edita un Estudiante"
-	updateStudent(id: ID!, input: StudentUpdateInput!): Student
+	updatePerson(id: ID!, input: PersonUpdateInput!): Person
 	"Eliminar un Estudiante"
-	deleteStudent(id: ID!): Student
-  "Agrega un persona a un curso"
-  addPeople(courseID:ID!, personID: ID! ): Course
+	deletePerson(id: ID!): Person
+	"Agrega un persona a un curso"
+	addPeople(courseID: ID!, personID: ID!): Course
 }
